@@ -74,6 +74,9 @@ type Config struct {
 	DBDefaultDatabase string `envconfig:"DB_DEFAULT_DATABASE" validate:"required"`
 	DBSslMode         string `envconfig:"DB_SSL_MODE" validate:"required,oneof=disable require"`
 
+	// database URI scheme used by SQLAlchemy
+	SQLAlchemyDatabaseURIScheme string `envconfig:"SQLALCHEMY_DATABASE_URI_SCHEME" default:"postgresql"`
+
 	// persistence storage
 	PersistenceStoragePath    string `envconfig:"PERSISTENCE_STORAGE_PATH"`
 	PersistenceStorageMaxSize int64  `envconfig:"PERSISTENCE_STORAGE_MAX_SIZE"`

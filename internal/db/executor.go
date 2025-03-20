@@ -2,7 +2,10 @@ package db
 
 import (
 	"fmt"
+	"reflect"
 
+	"github.com/google/uuid"
+	"github.com/langgenius/dify-plugin-daemon/internal/types/models"
 	"github.com/langgenius/dify-plugin-daemon/internal/utils/log"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -19,6 +22,20 @@ var (
 )
 
 func Create(data any, ctx ...*gorm.DB) error {
+	val := reflect.ValueOf(data)
+	if !val.IsNil() && val.Kind() == reflect.Ptr {
+		val = val.Elem()
+		for i := 0; i < val.NumField(); i++ {
+			field := val.Field(i)
+			fieldType := val.Type().Field(i)
+			if fieldType.Anonymous && (fieldType.Type == reflect.TypeOf(models.Model{})) {
+				modelField := field.FieldByName("ID")
+				if modelField.IsZero() {
+					modelField.SetString(uuid.NewString())
+				}
+			}
+		}
+	}
 	if len(ctx) > 0 {
 		return ctx[0].Create(data).Error
 	}
@@ -63,9 +80,9 @@ func AppendAssociation[T any, R any](source *T, field string, associations R, ct
 
 type genericComparableConstraint interface {
 	int | int8 | int16 | int32 | int64 |
-		uint | uint8 | uint16 | uint32 | uint64 |
-		float32 | float64 |
-		bool
+	uint | uint8 | uint16 | uint32 | uint64 |
+	float32 | float64 |
+	bool
 }
 
 type genericEqualConstraint interface {
