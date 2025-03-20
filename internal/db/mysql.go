@@ -28,7 +28,7 @@ func NewMySQLInitializer(host string, port int, user string, password string, ss
 }
 
 func (m *MySQLInitializer) Connect(dbName string) (*gorm.DB, error) {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&tls=%v", m.user, m.password, m.host, m.port, dbName, m.sslMode == "require")
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=true&tls=%v", m.user, m.password, m.host, m.port, dbName, m.sslMode == "require")
 	return gorm.Open(mysql.Open(dsn), &gorm.Config{})
 }
 func (m *MySQLInitializer) CreateDatabaseIfNotExists(db *gorm.DB, dbName string) error {

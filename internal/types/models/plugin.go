@@ -14,7 +14,7 @@ type Plugin struct {
 	Refers            int                                `json:"refers" gorm:"default:0"`
 	InstallType       plugin_entities.PluginRuntimeType  `json:"install_type" gorm:"size:127;index"`
 	ManifestType      manifest_entities.DifyManifestType `json:"manifest_type" gorm:"size:127"`
-	RemoteDeclaration plugin_entities.PluginDeclaration  `json:"remote_declaration" gorm:"serializer:json;type:text;size:65535"` // enabled when plugin is remote
+	RemoteDeclaration plugin_entities.PluginDeclaration  `json:"remote_declaration" gorm:"serializer:json;type:longtext;size:65535"` // enabled when plugin is remote
 }
 
 type ServerlessRuntimeType string
@@ -36,5 +36,5 @@ type PluginDeclaration struct {
 	Model
 	PluginUniqueIdentifier string                            `json:"plugin_unique_identifier" gorm:"size:255;unique"`
 	PluginID               string                            `json:"plugin_id" gorm:"size:255;index"`
-	Declaration            plugin_entities.PluginDeclaration `json:"declaration" gorm:"serializer:json;type:text;size:65535"`
+	Declaration            plugin_entities.PluginDeclaration `json:"declaration" gorm:"serializer:json;type:longtext;size:65535"`
 }
