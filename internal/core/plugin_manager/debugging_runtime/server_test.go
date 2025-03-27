@@ -22,6 +22,7 @@ import (
 )
 
 var defaultConfig = &app.Config{
+	DBType:     "postgresql",
 	DBUsername: "postgres",
 	DBPassword: "difyai123456",
 	DBHost:     "localhost",
